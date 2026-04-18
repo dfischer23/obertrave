@@ -153,3 +153,11 @@ The SHDM-2 API (`/settings/lights/0?btn_type=edge`) silently ignores changes; mu
 | BTN -> KaiserIdell | ESPHome button | Toggle KaiserIdell light |
 | Publish KaiserIdell state to MQTT | KaiserIdell state change | Publish state + brightness to MQTT |
 | Anton Schreibtischlampe Helligkeit | Schreibtischlampe off→on, no user context | 100% if sun up, 40% if sun down |
+
+## dirigera_platform local patches
+
+**BILRESA scroll wheel support** — `dirigera_platform` 0.2.12 doesn't support the scroll wheel variant. Two files patched directly on the Pi:
+- `base_classes.py`: added `"BILRESA scroll wheel": 1` to `CONTROLLER_BUTTON_MAP`
+- `hub_event_listener.py`: fallback in `remotePressEvent` handler — when `_1` registry lookup fails, try the original sub-device ID (`_3`/`_6`/`_9`) and strip the `buttonN_` trigger prefix
+
+TODO: fork `sanjoyg/dirigera_platform`, apply on a branch, install via HACS from fork, open upstream PR.
